@@ -1,0 +1,22 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-nginx
+  labels:
+    run: my-nginx
+spec:
+  type: NodePort
+  ports:
+  - nodePort: 31028
+    port: 80
+    name: http
+    protocol: TCP
+  - nodePort: 32111
+    port: 32111
+    targetPort: 32111
+    protocol: TCP
+    name: prometheus
+
+  selector:
+    version: 1.0.0

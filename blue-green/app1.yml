@@ -1,0 +1,29 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-v1
+spec:
+  selector:
+    matchLabels:
+      run: my-nginx
+  replicas: 10
+  strategy:
+    type: RollingUpdate
+
+  template:
+    metadata:
+      labels:
+        run: my-nginx
+        version: 1.0.0
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "32111"
+    spec:
+      containers:
+      - name: my-nginx
+        image: signorini/nginx-openrest:app1
+
+        ports:
+        - containerPort: 80
+        - containerPort: 32111
