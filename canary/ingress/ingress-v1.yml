@@ -1,22 +1,16 @@
----
-apiVersion: v1
-kind: Service
+apiVersion: extensions/v1beta1
+kind: Ingress
 metadata:
-  name: my-nginx
+  name: my-app
   labels:
-    run: my-nginx
+    app: my-app
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
 spec:
-  type: NodePort
-  ports:
-  - nodePort: 31028
-    port: 80
-    name: http
-    protocol: TCP
-  - nodePort: 32111
-    port: 32111
-    targetPort: 32111
-    protocol: TCP
-    name: prometheus
-
-  selector:
-    run: my-nginx
+  rules:
+  - host: my-app.com
+    http:
+      paths:
+      - backend:
+          serviceName: my-nginx1
+          servicePort: 80

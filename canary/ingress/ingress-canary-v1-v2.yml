@@ -1,22 +1,21 @@
 ---
-apiVersion: v1
-kind: Service
+apiVersion: extensions/v1beta1
+kind: Ingress
 metadata:
-  name: my-nginx
+  name: my-app-canary
   labels:
-    run: my-nginx
-spec:
-  type: NodePort
-  ports:
-  - nodePort: 31028
-    port: 80
-    name: http
-    protocol: TCP
-  - nodePort: 32111
-    port: 32111
-    targetPort: 32111
-    protocol: TCP
-    name: prometheus
+    app: my-app
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
 
-  selector:
-    run: my-nginx
+    # Enable canary and send 10% of traffic to version 2
+    nginx.ingress.kubernetes.io/canary: "true"
+    nginx.ingress.kubernetes.io/canary-weight: "10"
+spec:
+  rules:
+  - host: my-app.com
+    http:
+      paths:
+      - backend:
+          serviceName: my-nginx2
+          servicePort: 80
