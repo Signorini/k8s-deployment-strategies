@@ -2,9 +2,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: my-nginx
+  name: my-blue
   labels:
-    run: my-nginx
+    run: my-blue
 spec:
   type: NodePort
   ports:

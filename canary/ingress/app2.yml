@@ -2,28 +2,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: cn-v2
 spec:
   selector:
     matchLabels:
-      run: my-nginx
-  replicas: 10
+      run: my-blue
+  replicas: 2
   strategy:
     type: RollingUpdate
 
   template:
     metadata:
       labels:
-        run: my-nginx
+        run: my-blue
         version: 2.0.0
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/port: "32111"
     spec:
       containers:
-      - name: my-nginx
+      - name: my-blue
         image: signorini/nginx-openrest:app2
 
         ports:
         - containerPort: 80
         - containerPort: 32111
+

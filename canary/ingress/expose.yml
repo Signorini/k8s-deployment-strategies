@@ -2,34 +2,33 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: my-nginx1
+  name: my-cn1
   labels:
-    run: my-nginx
+    run: my-cn1
 spec:
-  type: NodePort
   ports:
-  - name: http
-    containerPort: 80
-  - name: prometheus
-    containerPort: 32111
+  - port: 80
+    name: http
+  - port: 32111
+    targetPort: 32111
+    name: prometheus
 
   selector:
-    run: my-nginx
     version: 1.0.0
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: my-nginx2
+  name: my-cn2
   labels:
-    run: my-nginx
+    run: my-cn2
 spec:
   ports:
-  - name: http
-    containerPort: 80
-  - name: prometheus
-    containerPort: 32111
-    
+  - port: 80
+    name: http
+  - port: 32111
+    targetPort: 32111
+    name: prometheus
+
   selector:
-    run: my-nginx
     version: 2.0.0
