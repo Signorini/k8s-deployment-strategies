@@ -1,19 +1,21 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: ingress-cn
+  name: ingress-ab
   labels:
-    run: ingress-cn
+    run: ingress-ab
   annotations:
     kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/canary-by-header: "X-V2"
+    nginx.ingress.kubernetes.io/canary: "true"
 spec:
   rules:
   - host: app.com
     http:
       paths:
       - backend:
-          serviceName: my-cn1
+          serviceName: my-cn2
           servicePort: 80
       - backend:
-          serviceName: my-cn1
+          serviceName: my-cn2
           servicePort: 32111
