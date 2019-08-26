@@ -39,6 +39,8 @@ We advise against this deploy normally the downtimes can long disable your custo
 
 ![Recreate](https://raw.githubusercontent.com/Signorini/k8s-deployment-strategies/master/images/recreate.png)
 
+[Let's do it](https://github.com/Signorini/k8s-deployment-strategies/tree/master/recreated)
+
 ---
 
 ## Rolling update [Fewer resources without outages]: 
@@ -49,12 +51,16 @@ The major downside for rolling release is, in a few moments you will have an inc
 
 ![Rolling](https://raw.githubusercontent.com/Signorini/k8s-deployment-strategies/master/images/rolling.png)
 
+[Let's do it](https://github.com/Signorini/k8s-deployment-strategies/tree/master/rolling)
+
 ---
 
 ## Blue/green [The best for major releases]:
 The version b is deployed alongside to version a, after all traffic a requirements will be switched to new version, which is a safer deployment, you can do a test, rollback will be straightforward, concerns boil down in doubling resource utilization each time a deployment happens, and depends on how often a deploy happens this strategy can be expensive.
 
 ![blue-green](https://raw.githubusercontent.com/Signorini/k8s-deployment-strategies/master/images/blue-green-grafana.png)
+
+[Let's do it](https://github.com/Signorini/k8s-deployment-strategies/tree/master/blue-green)
 
 ---
 
@@ -63,6 +69,8 @@ The canary release consist into deploy a version b alongside a version a, but ro
 
 ![Canary](https://raw.githubusercontent.com/Signorini/k8s-deployment-strategies/master/images/canary.png)
 
+[Let's do it](https://github.com/Signorini/k8s-deployment-strategies/tree/master/canary)
+
 ---
 
 ## A/B release [The best to test new features]:
@@ -70,12 +78,16 @@ A/B testing is very similar to a canary release, normally used for business deci
 
 ![ab](https://raw.githubusercontent.com/Signorini/k8s-deployment-strategies/master/images/ab.png)
 
+[Let's do it](https://github.com/Signorini/k8s-deployment-strategies/tree/master/dark-release)
+
 ---
 
 ## Shadow release [Testing high critical services without impact/risk]:
 Traffic shadowing is a deployment pattern where production traffic is asynchronously copied to a non-production service for testing. It can be fit for situations to test critical apps, or apps hard to revert like payments gateways is good for persistent services, performance testing and/or behaviour without swift data or control the flow without impact.
 
 ![Shadow](https://raw.githubusercontent.com/Signorini/k8s-deployment-strategies/master/images/shadown.png)
+
+[Let's do it](https://github.com/Signorini/k8s-deployment-strategies/tree/master/shadow)
 
 ---
 
