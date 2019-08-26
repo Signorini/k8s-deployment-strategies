@@ -28,8 +28,6 @@ The second point is, normally we use 2 to 3 strategy at the same time and change
 *A/B release:* AAs a canary release, the subset it’s defined by specific conditions.
 *Shadowing:* The traffic is sending to both versions, and version b don’t impact on the response.
 
-You can check the code for every example in GitHub - Kubernetes deployment
-
 ---
 
 ## Recreate [Go horse update]:
@@ -39,7 +37,7 @@ We advise against this deploy normally the downtimes can long disable your custo
 
 ![Recreate](https://raw.githubusercontent.com/Signorini/k8s-deployment-strategies/master/images/recreate.png)
 
-[Let's do it](https://github.com/Signorini/k8s-deployment-strategies/tree/master/recreated)
+[Show me the code - Recreate release](https://github.com/Signorini/k8s-deployment-strategies/tree/master/recreated)
 
 ---
 
@@ -51,7 +49,7 @@ The major downside for rolling release is, in a few moments you will have an inc
 
 ![Rolling](https://raw.githubusercontent.com/Signorini/k8s-deployment-strategies/master/images/rolling.png)
 
-[Let's do it](https://github.com/Signorini/k8s-deployment-strategies/tree/master/rolling)
+[Show me the code - Rolling release](https://github.com/Signorini/k8s-deployment-strategies/tree/master/rolling)
 
 ---
 
@@ -60,7 +58,7 @@ The version b is deployed alongside to version a, after all traffic a requiremen
 
 ![blue-green](https://raw.githubusercontent.com/Signorini/k8s-deployment-strategies/master/images/blue-green-grafana.png)
 
-[Let's do it](https://github.com/Signorini/k8s-deployment-strategies/tree/master/blue-green)
+[Show me the code - Blue/gree](https://github.com/Signorini/k8s-deployment-strategies/tree/master/blue-green)
 
 ---
 
@@ -69,7 +67,7 @@ The canary release consist into deploy a version b alongside a version a, but ro
 
 ![Canary](https://raw.githubusercontent.com/Signorini/k8s-deployment-strategies/master/images/canary.png)
 
-[Let's do it](https://github.com/Signorini/k8s-deployment-strategies/tree/master/canary)
+[Show me the code - Canary release](https://github.com/Signorini/k8s-deployment-strategies/tree/master/canary)
 
 ---
 
@@ -78,7 +76,7 @@ A/B testing is very similar to a canary release, normally used for business deci
 
 ![ab](https://raw.githubusercontent.com/Signorini/k8s-deployment-strategies/master/images/ab.png)
 
-[Let's do it](https://github.com/Signorini/k8s-deployment-strategies/tree/master/dark-release)
+[Show me the code - A/B release](https://github.com/Signorini/k8s-deployment-strategies/tree/master/dark-release)
 
 ---
 
@@ -87,7 +85,7 @@ Traffic shadowing is a deployment pattern where production traffic is asynchrono
 
 ![Shadow](https://raw.githubusercontent.com/Signorini/k8s-deployment-strategies/master/images/shadown.png)
 
-[Let's do it](https://github.com/Signorini/k8s-deployment-strategies/tree/master/shadow)
+[Show me the code - Shadowing](https://github.com/Signorini/k8s-deployment-strategies/tree/master/shadow)
 
 ---
 
