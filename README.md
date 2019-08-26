@@ -91,3 +91,10 @@ Traffic shadowing is a deployment pattern where production traffic is asynchrono
 
 ## Finally, catch up
 We have multiple strategies with pros and cons, early times normally budget and time efforts always are a critical value to use. However, tools like Kubernetes and Istio/App Mesh came away to turn easy for every company to implement, now we can choose multiple types of deployment for the same apps accordingly each situation, minor changes can be done by rolling release, big changes can be finished by blue/green, new features can handle by A/B and new providers can be tested using shadow release.
+
+
+---
+
+## Autors
+
+[@Felipe Signorini](https://github.com/Signorini)
