@@ -98,13 +98,13 @@ while; do; curl -H "Host: app.com" http://localhost:31028/; done;
 
 ## Deploy canary release
 
-The script below will deploy 10% of the traffic to version 2
+Deploy version 2 on kubernetes, they will run side by side
 
 ```
 kubectl apply -f native/app2.yml
 ```
 
-The trick is, app1 it's deployed as 9 pods, and app2 only 1 pod, both use the same label to be matched by nodeportr service, means 90% of traffic will be routed to app1 and 10% to app2, if you like to increase this number, you can:
+The trick is, app1 it's deployed as 9 pods, and app2 only 1 pod, both use the same label to be matched by nodeport service, the nodeport will route 90% of traffic to app1 and 10% to app2, if you like to increase this number, you can:
 ```
 kubectl scale deployment my-nginx --replicas=9
 // Will send 50% of the traffic in both versions
@@ -163,7 +163,7 @@ nginx.ingress.kubernetes.io/canary: "true" // enabling canary release
 nginx.ingress.kubernetes.io/canary-weight: "10" // percentage to switch to second application
 ```
 
-When all its good you can set to send 100% traffic to version 2
+When all it's good you can set to send 100% traffic to version 2
 ```
 kubectl apply -f ingress/ingress-v2.yml
 ```
