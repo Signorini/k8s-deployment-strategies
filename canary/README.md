@@ -11,7 +11,7 @@ The canary release consist into deploy a version b alongside a version a, but ro
 
 **Native** - Using built-in kubernetes functionalities
 
-Ingress - Using nginx ingress
+**Ingress** - Using nginx ingress
 
 ##  Setup the env
 
@@ -68,3 +68,102 @@ sum(kube_pod_container_info{image=~"signorini/nginx-openrest:.*"}) by (image)
 ```
 
 ---
+
+# Native
+
+## Create first deployment
+
+Create a deployment v1
+
+```
+kubectl apply -f native/app1.yml
+```
+
+Expose a service using NodePort
+
+```
+kubectl apply -f native1/expose.yml
+```
+
+The service it's a single nginx [openrest], expose a single endpoint.
+
+```
+curl http://localhost:31028/;
+```
+
+Simple way to generate load into endpoint.
+```
+while; do; curl -H "Host: app.com" http://localhost:31028/; done;
+```
+
+## Deploy canary release
+
+The script below will deploy 10% of the traffic to version 2
+
+```
+kubectl apply -f native/app2.yml
+```
+
+The trick is, app1 it's deployed as 9 pods, and app2 only 1 pod, both use the same label to be matched by nodeportr service, means 90% of traffic will be routed to app1 and 10% to app2, if you like to increase this number, you can:
+```
+kubectl scale deployment my-nginx --replicas=9
+// Will send 50% of the traffic in both versions
+```
+
+If all is good, remove the first version.
+```
+kubectl delete -f native/app1.yml
+```
+
+
+# Ingress
+
+## Create first deployment
+
+Create a deployment v1
+
+```
+kubectl apply -f ingress/app1.yml
+```
+
+Now create the ingress and point out to app1 deployment.
+
+```
+// Setup the ingress rbac and config maps
+kubectl apply -f ingress/ingress.yml
+
+// Create a ingress rules to point out to service version 1
+kubectl apply -f ingress/ingress-v1.yml
+
+// Expose ingress externally
+kubectl apply -f ingress/expose-ingress.yml
+```
+
+Checking ingress rules
+```
+paths:
+- backend:
+    serviceName: my-cn1 // version 1
+    servicePort: 80 // expose port 80
+- backend:
+    serviceName: my-cn1
+    servicePort: 32111 // expose prometheus metrics.
+```
+
+## Do canary
+
+To start to switch the traffic, deploy the canary release rule.
+```
+kubectl apply -f ingress/ingress-canary.yml
+```
+
+Ingress have a built-in canary release funcationality, can be activate using two annotations
+```
+nginx.ingress.kubernetes.io/canary: "true" // enabling canary release
+nginx.ingress.kubernetes.io/canary-weight: "10" // percentage to switch to second application
+```
+
+When all its good you can set to send 100% traffic to version 2
+```
+kubectl apply -f ingress/ingress-v2.yml
+```

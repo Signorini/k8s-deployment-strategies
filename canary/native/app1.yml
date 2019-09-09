@@ -7,7 +7,7 @@ spec:
   selector:
     matchLabels:
       run: my-nginx
-  replicas: 10
+  replicas: 9
   strategy:
     type: RollingUpdate
 
