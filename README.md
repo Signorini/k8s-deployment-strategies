@@ -21,12 +21,18 @@ The first point, deployments seem simple, however the hard part is to adopt the 
 The second point is, normally we use 2 to 3 strategy at the same time and change the strategy accordingly the context.
 
 ## Let's talk about
-*Recreate:* Destroy the old version and up the new version.
-*Rolling update:* The version b is slowly rolled out replacing version a.
-*Blue/green:* New version is shipped alongside to old version and the traffic its switch off.
-*Canary release:* New version its deployed to a subset of users and gradually increment for all users.
-*A/B release:* AAs a canary release, the subset it’s defined by specific conditions.
-*Shadowing:* The traffic is sending to both versions, and version b don’t impact on the response.
+- **Recreate:** Destroy the old version and up the new version.
+
+- **Rolling update:** The version b is slowly rolled out replacing version a. [Show me the code - Rolling release](https://github.com/Signorini/k8s-deployment-strategies/tree/master/rolling)
+
+- **Blue/green:** New version is shipped alongside to old version and the traffic its switch off. [Show me the code - Blue/gree](https://github.com/Signorini/k8s-deployment-strategies/tree/master/blue-green)
+
+- **Canary release:** New version its deployed to a subset of users and gradually increment for all users. [Show me the code - Canary release](https://github.com/Signorini/k8s-deployment-strategies/tree/master/canary)
+
+- **A/B release:** AAs a canary release, the subset it’s defined by specific conditions. [Show me the code - A/B release](https://github.com/Signorini/k8s-deployment-strategies/tree/master/dark-release)
+
+- **Shadowing:** The traffic is sending to both versions, and version b don’t impact on the response. [Show me the code - Shadowing](https://github.com/Signorini/k8s-deployment-strategies/tree/master/shadow)
+
 
 ---
 

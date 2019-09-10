@@ -126,7 +126,7 @@ Create a deployment v1
 kubectl apply -f ingress/app1.yml
 ```
 
-Now create the ingress and point out to app1 deployment.
+Create the ingress and point out to app1 deployment.
 
 ```
 // Setup the ingress rbac and config maps
@@ -135,7 +135,7 @@ kubectl apply -f ingress/ingress.yml
 // Create a ingress rules to point out to service version 1
 kubectl apply -f ingress/ingress-v1.yml
 
-// Expose ingress externally
+// Expose ingress externaly
 kubectl apply -f ingress/expose-ingress.yml
 ```
 
