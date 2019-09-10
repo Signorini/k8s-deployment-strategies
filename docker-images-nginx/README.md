@@ -1,7 +1,7 @@
 ---
 # Openrest - Simple nginx to expose prometheus metrics
 
-It's a simple nginx expose a endpoint and prometheus metrics.
+It's a simple nginx to expose a endpoint and prometheus metrics.
 
 ```
 // nginx-prometheus-exporter-v1
@@ -11,7 +11,9 @@ docker build -t "nginx" .
 docker build -t "nginx" .
 ```
 
-Root location
+---
+
+## Root location
 ```
 location / {
     content_by_lua_block {
@@ -20,7 +22,7 @@ location / {
 }
 ```
 
-Metrics endpoint
+## Metrics endpoint
 ```
 location /metrics {
     content_by_lua_block {
