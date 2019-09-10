@@ -80,7 +80,7 @@ kubectl apply -f istio/app1.yml
 kubectl apply -f istio/app2.yml
 ```
 
-Expose each application using ClusterIp
+Expose each application using ClusterIP service.
 ```
 kubectl apply -f istio/expose.yml
 ```
@@ -120,13 +120,13 @@ Ensure the corresponding Kubernetes pods are deployed and have a STATUS of Runni
 $ kubectl get pods -n istio-system
 ```
 
-Now, time to deploy our gateway and virtualservice and point out to version
+Now, time to deploy our gateway and virtualservice and point out to version 1.
 
 ```
 kubectl apply -f istio/gateway.yml
 ```
 
-This gateway set a server using host name and open 80 port.
+This gateway set a proxy to be served using host header value and open port 80.
 ```
 servers:
 - port:
@@ -142,6 +142,7 @@ To set the virtual service to use the previous gateway and point out to my-cn1 c
 kubectl apply -f istio/virtualservice.yml
 ```
 
+Checking the gateway config we can see the destination parameter.
 ```
 gateways:
     - my-app
@@ -151,7 +152,7 @@ gateways:
             host: my-cn1
 ```
 
-Testing my application
+It's all good. Let's test an application.
 ```
 curl -H "Host: app.com" http://localhost:80/;
 ```
