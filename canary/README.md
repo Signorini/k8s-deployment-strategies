@@ -82,7 +82,7 @@ kubectl apply -f native/app1.yml
 Expose a service using NodePort
 
 ```
-kubectl apply -f native1/expose.yml
+kubectl apply -f native/expose.yml
 ```
 
 The service it's a single nginx [openrest], expose a single endpoint.
