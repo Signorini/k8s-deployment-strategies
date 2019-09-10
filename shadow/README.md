@@ -28,6 +28,8 @@ helm install --name prometheus stable/prometheus
 helm install --name grafana stable/grafana
 ```
 
+**Istio** - Install default Istio deployment. [Install Istio](https://istio.io/docs/setup/)
+
 ### Connected prometheus into grafana
 
 Add prometheus as source on grafana.
@@ -65,3 +67,109 @@ sum(kube_pod_container_info{image=~"signorini/nginx-openrest:.*"}) by (image)
 ```
 
 ---
+
+# Istio
+
+## Create first deployment
+
+Create a deployment v1 and v2
+
+```
+kubectl apply -f istio/app1.yml
+
+kubectl apply -f istio/app2.yml
+```
+
+Expose each application using ClusterIp
+```
+kubectl apply -f istio/expose.yml
+```
+
+We have two version running side by side
+
+```
+kubectl get deploy
+NAME                            READY   UP-TO-DATE   AVAILABLE   AGE
+cn-v1                           2/2     2            2           27d
+cn-v2                           2/2     2            2           27d
+
+kubectl get svc
+NAME                            TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                        AGE
+my-cn1                          ClusterIP   10.109.115.2     <none>        80/TCP,32111/TCP               1h
+my-cn2                          ClusterIP   10.109.115.2     <none>        80/TCP,32111/TCP               1h
+```
+
+## Install istio
+
+Istio it's a complete service mesh and proxy system, there are many flavors to install istio, the easiest way is using a helm in a minimal setup.
+
+```
+$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
+    --values install/kubernetes/helm/istio/values-istio-minimal.yaml | kubectl apply -f -
+```
+[More about Istio installation](https://istio.io/docs/setup/kubernetes/install/helm/)
+
+Checking if everything is work.
+```
+Verify that the Kubernetes services corresponding to your selected profile have been deployed.
+
+$ kubectl get svc -n istio-system
+
+Ensure the corresponding Kubernetes pods are deployed and have a STATUS of Running:
+
+$ kubectl get pods -n istio-system
+```
+
+Now, time to deploy our gateway and virtualservice and point out to version
+
+```
+kubectl apply -f istio/gateway.yml
+```
+
+This gateway set a server using host name and open 80 port.
+```
+servers:
+- port:
+    number: 80
+    name: http
+    protocol: HTTP
+    hosts:
+    - app.com
+```
+
+To set the virtual service to use the previous gateway and point out to my-cn1 clusterip service.
+```
+kubectl apply -f istio/virtualservice.yml
+```
+
+```
+gateways:
+    - my-app
+  http:
+    - route:
+        - destination:
+            host: my-cn1
+```
+
+Testing my application
+```
+curl -H "Host: app.com" http://localhost:80/;
+```
+
+## Shadowing traffic
+
+To start to mirror the traffic we use a istio feature called mirror, 
+
+```
+kubectl apply -f istio/virtualservice-mirror.yml
+```
+
+Just add a new config on virtual service, istio will start to mirror the traffic.
+```
+http:
+- route:
+    - destination:
+        host: my-cn1
+    mirror:
+        host: my-cn2
+```
