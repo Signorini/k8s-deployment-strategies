@@ -90,3 +90,59 @@ sum(kube_pod_container_info{image=~"signorini/nginx-openrest:.*"}) by (image)
 ```
 
 ---
+
+# Ingress
+
+## Create first deployment
+
+Create a deployment v1
+
+```
+kubectl apply -f ingress/app1.yml
+```
+
+Create the ingress and point out to app1 deployment.
+
+```
+// Setup the ingress rbac and config maps
+kubectl apply -f ingress/ingress.yml
+
+// Create a ingress rules to point out to service version 1
+kubectl apply -f ingress/ingress-v1.yml
+
+// Expose ingress externaly
+kubectl apply -f ingress/expose-ingress.yml
+```
+
+Checking ingress rules
+```
+paths:
+- backend:
+    serviceName: my-cn1 // version 1
+    servicePort: 80 // expose port 80
+- backend:
+    serviceName: my-cn1
+    servicePort: 32111 // expose prometheus metrics.
+```
+
+## Do A/B release
+
+To start to switch the traffic, you can deploy one or more rules to split the traffic, in this example we use a custom header
+```
+kubectl apply -f ingress/ingress-v2.yml
+```
+
+Ingress have a built-in a/b test funcationality, can be activate using two annotations
+```
+nginx.ingress.kubernetes.io/canary-by-header: "X-V2" # canary by custom header
+nginx.ingress.kubernetes.io/canary: "true" # enabling canary
+```
+
+To test 
+```
+// hit version 1
+curl -H "Host: app.com" http://localhost:31028/;
+
+// hit version 2
+curl -H "Host: app.com" -H "X-V2: always" http://localhost:31028/;
+```

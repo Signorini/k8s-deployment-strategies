@@ -101,24 +101,26 @@ Deploy version 2 on kubernetes, they will run side by side
 kubectl apply -f native/app2.yml
 ```
 
-And expose then
+To switch the traffic you can change the matched selector on service
 ```
 kubectl apply -f native/expose2.yml
 ```
 
-We have two version running in the same time
+We have two version running in the same time and only one service routing the traffic.
 
 ```
-kubectl get svc
+kubectl get deploy
+NAME                            READY   UP-TO-DATE   AVAILABLE   AGE
+cn-v1                           2/2     2            2           27d
+cn-v2                           2/2     2            2           27d
 
+kubectl get svc
 NAME                            TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                        AGE
-my-cn1                          ClusterIP   10.109.115.2     <none>        80/TCP,32111/TCP               31d
-my-cn2                          ClusterIP   10.101.29.80     <none>        80/TCP,32111/TCP               31d
+my-blue                         ClusterIP   10.109.115.2     <none>        80/TCP,32111/TCP               31d
 ```
 
 
 If all is good, we can remove the first version.
 ```
 kubectl delete -f native/app1.yml
-kubectl delete -f native/expose.yml
 ```
